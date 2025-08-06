@@ -3,78 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guardiões do Bairro</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+    <title>Animus ONG - Ajude um Animal Carente</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐾</text></svg>">
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;600;700&display=swap');
+
         :root {
-            --primary-color: #2c5b7c;
-            --secondary-color: #3aa8a5;
-            --background-color: #f4f7f6;
-            --text-color: #333;
-            --card-bg: #ffffff;
-            --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            --primary-color: #8D5B4C; /* Um marrom quente e acolhedor */
+            --secondary-color: #E4C59E; /* Um bege claro e amigável */
+            --accent-color: #D88C9A; /* Um rosa/coral para destaque */
+            --text-color: #433633;
+            --bg-color: #FDF8F5;
+            --white: #FFFFFF;
+            --shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body { font-family: 'Poppins', sans-serif; background-color: var(--background-color); color: var(--text-color); line-height: 1.6; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
         .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-        header { background-color: var(--card-bg); padding: 1rem 0; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); position: sticky; top: 0; z-index: 100; }
+
+        /* Header */
+        header {
+            background-color: var(--white);
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky; top: 0; z-index: 1000;
+        }
         header .container { display: flex; justify-content: space-between; align-items: center; }
-        .logo { color: var(--primary-color); font-weight: 700; font-size: 1.5rem; }
-        header nav { display: flex; align-items: center; gap: 20px; }
-        header nav a { text-decoration: none; color: var(--text-color); font-weight: 600; transition: color 0.3s ease; }
-        header nav a:hover { color: var(--primary-color); }
-        button { font-family: 'Poppins', sans-serif; cursor: pointer; border: none; border-radius: 5px; padding: 10px 20px; font-weight: 600; transition: all 0.3s ease; }
-        .btn-login { background-color: var(--primary-color); color: white; border: 2px solid var(--primary-color); }
-        .btn-login:hover { background-color: #1e425a; }
-        .btn-cta { background-color: var(--secondary-color); color: white; padding: 12px 25px; font-size: 1.1rem; }
-        .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(58, 168, 165, 0.4); }
-        .btn-accept { background-color: var(--primary-color); color: white; width: 100%; margin-top: 10px; }
-        .btn-accept:hover { background-color: #1e425a; }
-        #user-auth { display: flex; align-items: center; gap: 10px; }
-        #user-auth span { font-weight: 600; }
+        .logo { color: var(--primary-color); font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.8rem; text-decoration: none; }
+        .logo span { color: var(--accent-color); }
+        nav { display: flex; align-items: center; gap: 25px; }
+        nav a { text-decoration: none; color: var(--text-color); font-weight: 600; transition: color 0.3s ease; }
+        nav a:hover { color: var(--primary-color); }
         #user-auth img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-color); }
-        #btn-logout { background-color: #e74c3c; color: white; padding: 8px 15px; }
-        #btn-logout:hover { background-color: #c0392b; }
-        .hero { background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1531545514256-b1400bc00f31?q=80&w=1974&auto=format&fit=crop') no-repeat center center/cover; color: white; text-align: center; padding: 100px 0; }
-        .hero h2 { font-size: 3rem; margin-bottom: 10px; }
-        .hero p { font-size: 1.2rem; margin-bottom: 30px; }
-        .info-section, .missions-section { padding: 80px 0; }
-        .info-section { background-color: var(--card-bg); }
-        h3 { text-align: center; font-size: 2.2rem; color: var(--primary-color); margin-bottom: 50px; }
-        .steps { display: flex; justify-content: space-between; gap: 30px; text-align: center; }
-        .step { flex-basis: 30%; }
-        .step-icon { width: 60px; height: 60px; background-color: var(--secondary-color); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; font-weight: 700; margin: 0 auto 20px; }
-        .step h4 { font-size: 1.3rem; margin-bottom: 10px; }
-        .mission-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; min-height: 100px; }
-        .mission-card { background-color: var(--card-bg); border-radius: 8px; box-shadow: var(--shadow); padding: 25px; display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .mission-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); }
-        .mission-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .mission-tag { font-size: 0.8rem; padding: 4px 10px; border-radius: 15px; color: white; font-weight: 600; text-transform: capitalize; }
-        .mission-tag.ambiental { background-color: #27ae60; }
-        .mission-tag.ajuda { background-color: #e67e22; }
-        .mission-tag.zeladoria { background-color: #3498db; }
-        .mission-tag.default { background-color: #8e44ad; }
-        .mission-points { font-size: 0.9rem; font-weight: 600; color: var(--primary-color); }
-        .mission-card h4 { font-size: 1.25rem; margin-bottom: 10px; }
-        .mission-description { font-size: 0.95rem; flex-grow: 1; margin-bottom: 15px; }
-        .mission-author { font-size: 0.85rem; color: #777; }
-        .mission-footer { border-top: 1px solid #eee; padding-top: 15px; margin-top: auto; }
-        footer { background-color: var(--primary-color); color: white; text-align: center; padding: 20px 0; margin-top: 60px; }
+        #user-auth { display: flex; align-items: center; gap: 10px; }
+        #btn-logout { background-color: var(--accent-color); color: white; padding: 8px 15px; border-radius: 5px; cursor: pointer; border: none; }
+
+        /* Hero Section */
+        .hero { text-align: center; padding: 100px 20px; background: url('https://images.unsplash.com/photo-1548681528-6a5c45b66b42?q=80&w=1974&auto=format&fit=crop') no-repeat center center/cover; background-color: rgba(0,0,0,0.5); background-blend-mode: multiply; color: var(--white); }
+        .hero h1 { font-family: 'Montserrat', sans-serif; font-size: 3.5rem; margin-bottom: 15px; }
+        .hero p { font-size: 1.3rem; max-width: 600px; margin: 0 auto 30px; }
+        .btn { display: inline-block; background-color: var(--accent-color); color: var(--white); padding: 15px 35px; border-radius: 50px; text-decoration: none; font-weight: 700; transition: all 0.3s ease; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(216, 140, 154, 0.5); }
+
+        /* Sections */
+        section { padding: 80px 0; }
+        section h2 { font-family: 'Montserrat', sans-serif; text-align: center; font-size: 2.8rem; margin-bottom: 50px; color: var(--primary-color); }
+        #doacao { background-color: var(--white); }
+
+        /* Donation Section */
+        .donation-box { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .donation-amounts button { width: 100%; font-size: 1.2rem; padding: 15px; margin-bottom: 15px; border: 2px solid var(--secondary-color); background: none; border-radius: 10px; cursor: pointer; transition: all 0.3s; font-weight: 600; }
+        .donation-amounts button.selected, .donation-amounts button:hover { background-color: var(--primary-color); color: var(--white); border-color: var(--primary-color); }
+        .custom-amount { width: 100%; font-size: 1.2rem; padding: 15px; border-radius: 10px; border: 2px solid var(--secondary-color); font-family: 'Poppins', sans-serif; }
+        .qr-code-box { text-align: center; }
+        #qrcode { width: 256px; height: 256px; margin: 20px auto; padding: 10px; border: 1px solid #ddd; border-radius: 10px; }
+        #pix-code { width: 100%; padding: 10px; font-size: 0.9rem; background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 5px; margin-top: 15px; word-wrap: break-word; }
+        .btn-claim { background-color: var(--primary-color); width: 100%; margin-top: 20px; font-size: 1rem; padding: 12px; }
+
+        /* Ranking Section */
+        .ranking-list { list-style: none; max-width: 700px; margin: 0 auto; }
+        .ranking-list li { display: flex; align-items: center; background: var(--white); padding: 15px 25px; border-radius: 15px; margin-bottom: 15px; box-shadow: var(--shadow); transition: transform 0.2s; }
+        .ranking-list li:hover { transform: scale(1.02); }
+        .rank-pos { font-size: 1.5rem; font-weight: 700; color: var(--accent-color); min-width: 50px; }
+        .rank-img { width: 50px; height: 50px; border-radius: 50%; margin-right: 20px; }
+        .rank-name { font-weight: 600; font-size: 1.2rem; flex-grow: 1; }
+        .rank-amount { font-weight: 700; font-size: 1.3rem; color: var(--primary-color); }
+
+        /* Team Section */
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+        .team-member { text-align: center; }
+        .team-member img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 5px solid var(--secondary-color); margin-bottom: 15px; }
+        .team-member h4 { font-size: 1.3rem; margin-bottom: 5px; }
     </style>
 </head>
 <body>
 
     <header>
         <div class="container">
-            <h1 class="logo">🛡️ Guardiões do Bairro</h1>
+            <a href="#" class="logo">Animus<span>.</span>ONG</a>
             <nav>
-                <a href="#como-funciona">Como Funciona</a>
-                <a href="#missoes">Missões</a>
+                <a href="#doacao">Doar Agora</a>
+                <a href="#ranking">Hall dos Heróis</a>
+                <a href="#time">Nosso Time</a>
                 <div id="user-auth">
-                    <button class="btn-login" id="btn-login-google">Login com Google</button>
+                    <button class="btn" id="btn-login" style="padding: 10px 25px;">Login</button>
                 </div>
             </nav>
         </div>
@@ -82,65 +103,171 @@
 
     <main>
         <section class="hero">
-            <div class="container">
-                <h2>A sua comunidade precisa de você.</h2>
-                <p>Participe de pequenas missões, conheça seus vizinhos e transforme o lugar onde você vive.</p>
-                <button class="btn-cta" id="btn-create-mission">Criar Nova Missão</button>
-            </div>
+            <h1>Cada vida importa.</h1>
+            <p>Sua doação se transforma em ração, medicamentos e esperança para centenas de animais em Senador Pompeu - CE. Ajude a Animus ONG a continuar este trabalho.</p>
+            <a href="#doacao" class="btn">QUERO AJUDAR</a>
         </section>
-        
-        <section id="como-funciona" class="info-section">
+
+        <section id="doacao">
             <div class="container">
-                <h3>Como Funciona?</h3>
-                <div class="steps">
-                    <div class="step"><div class="step-icon">1</div><h4>Cadastre-se</h4><p>Valide sua identidade e endereço para garantir a segurança de todos.</p></div>
-                    <div class="step"><div class="step-icon">2</div><h4>Encontre uma Missão</h4><p>Navegue pelas tarefas abertas no seu bairro e escolha uma para ajudar.</p></div>
-                    <div class="step"><div class="step-icon">3</div><h4>Complete e Ganhe Pontos</h4><p>Realize a ação, confirme a conclusão e seja reconhecido pela comunidade.</p></div>
+                <h2>Faça sua Doação</h2>
+                <div class="donation-box">
+                    <div class="donation-controls">
+                        <h3>1. Escolha um valor</h3>
+                        <div class="donation-amounts">
+                            <button data-amount="10">R$ 10,00</button>
+                            <button data-amount="25">R$ 25,00</button>
+                            <button data-amount="50">R$ 50,00</button>
+                        </div>
+                        <input type="number" id="custom-amount" class="custom-amount" placeholder="Ou digite outro valor">
+                    </div>
+                    <div class="qr-code-box">
+                        <h3>2. Pague com PIX</h3>
+                        <div id="qrcode"></div>
+                        <p><strong>Chave PIX (E-mail):</strong> animusong@gmail.com</p>
+                        <textarea id="pix-code" readonly rows="3" title="Código PIX Copia e Cola"></textarea>
+                        <button class="btn btn-claim" id="btn-claim">Já doei! Quero ir para o ranking</button>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="missoes" class="missions-section">
+        <section id="ranking">
             <div class="container">
-                <h3>Missões Recentes no seu Bairro</h3>
-                <div class="mission-list"><p>Carregando missões...</p></div>
+                <h2>Hall dos Heróis</h2>
+                <ol class="ranking-list" id="ranking-list-container">
+                    <p style="text-align:center;">Carregando ranking...</p>
+                </ol>
             </div>
         </section>
+        
+        <section id="time" style="background-color: var(--white);">
+            <div class="container">
+                <h2>Nosso Time</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/150" alt="Foto Membro 1">
+                        <h4>Fulano de Tal</h4>
+                        <p>Presidente</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/150" alt="Foto Membro 2">
+                        <h4>Ciclana Silva</h4>
+                        <p>Veterinária</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/150" alt="Foto Membro 3">
+                        <h4>Beltrano Souza</h4>
+                        <p>Voluntário</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Guardiões do Bairro. Juntos, somos mais fortes.</p>
-        </div>
-    </footer>
-
+    
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
 
     <script>
         // =======================================================
-        // SUA CONFIGURAÇÃO DO FIREBASE (JÁ INSERIDA)
+        // SUA CONFIGURAÇÃO DO FIREBASE
         // =======================================================
         const firebaseConfig = {
-            apiKey: "AIzaSyDnPa-BIcP-8-QG0HpJAfGOR0evBlCnF-Y", // Chave de exemplo, use a sua completa
-            authDomain: "projetosocial-660ae.firebaseapp.com",
-            projectId: "projetosocial-660ae",
-            storageBucket: "projetosocial-660ae.appspot.com",
-            messagingSenderId: "109542583033",
-            appId: "1:109542583033:web:f3f475f71e29cf6fe15828",
-            measurementId: "G-41GNMWYFB4"
+            apiKey: "SUA_CHAVE_DE_API",
+            authDomain: "SEU_DOMINIO.firebaseapp.com",
+            projectId: "SEU_ID_DE_PROJETO",
+            storageBucket: "SEU_BUCKET.appspot.com",
+            messagingSenderId: "SEU_SENDER_ID",
+            appId: "SEU_APP_ID"
         };
-
-        // Inicializa Firebase
+        
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
-        const auth = firebase.auth(); 
+        const auth = firebase.auth();
 
         // =======================================================
-        // LÓGICA DE AUTENTICAÇÃO
+        // LÓGICA DE DOAÇÃO PIX
+        // =======================================================
+        const pixKey = "animusong@gmail.com";
+        const merchantName = "Animus ONG";
+        const merchantCity = "SENADOR POMPEU";
+        let selectedAmount = 25.00; // Default amount
+        const qrcodeContainer = document.getElementById('qrcode');
+        const pixCodeTextarea = document.getElementById('pix-code');
+        const qr = new QRCode(qrcodeContainer, { width: 256, height: 256 });
+
+        function formatAmount(amount) {
+            return amount.toFixed(2).replace('.', ',');
+        }
+        
+        // Função para gerar payload do PIX (formato BRCode)
+        function generatePIXPayload(key, amount, name, city) {
+            const formattedAmount = amount.toFixed(2);
+            const payload = [
+                '000201', // Payload Format Indicator
+                '26' + (key.length + 18).toString().padStart(2, '0') + '0014br.gov.bcb.pix01' + key.length.toString().padStart(2, '0') + key,
+                '52040000', // Merchant Category Code (0000 for unspecified)
+                '5303986',  // Transaction Currency (986 for BRL)
+                '54' + formattedAmount.length.toString().padStart(2, '0') + formattedAmount,
+                '5802BR', // Country Code
+                '59' + name.length.toString().padStart(2, '0') + name,
+                '60' + city.length.toString().padStart(2, '0') + city,
+                '62070503***' // Transaction ID
+            ];
+            const payloadString = payload.join('');
+            const crc16 = (payloadString + '6304').split('').reduce((acc, char) => {
+                let crc = acc ^ char.charCodeAt(0);
+                for (let i = 0; i < 8; i++) {
+                    crc = crc & 1 ? (crc >> 1) ^ 0x8408 : crc >> 1;
+                }
+                return crc;
+            }, 0xFFFF).toString(16).toUpperCase().padStart(4, '0');
+            
+            return payloadString + '6304' + crc16;
+        }
+
+        function updateQRCode(amount) {
+            const payload = generatePIXPayload(pixKey, amount, merchantName, merchantCity);
+            qr.makeCode(payload);
+            pixCodeTextarea.value = payload;
+        }
+        
+        // Event Listeners for donation amounts
+        const amountButtons = document.querySelectorAll('.donation-amounts button');
+        const customAmountInput = document.getElementById('custom-amount');
+
+        amountButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                amountButtons.forEach(btn => btn.classList.remove('selected'));
+                button.classList.add('selected');
+                selectedAmount = parseFloat(button.dataset.amount);
+                customAmountInput.value = '';
+                updateQRCode(selectedAmount);
+            });
+        });
+        
+        customAmountInput.addEventListener('input', () => {
+            amountButtons.forEach(btn => btn.classList.remove('selected'));
+            const customValue = parseFloat(customAmountInput.value);
+            if (customValue > 0) {
+                selectedAmount = customValue;
+                updateQRCode(selectedAmount);
+            }
+        });
+        
+        // Initial QR Code
+        document.querySelector('.donation-amounts button[data-amount="25"]').classList.add('selected');
+        updateQRCode(selectedAmount);
+
+        // =======================================================
+        // LÓGICA DE AUTENTICAÇÃO E RANKING
         // =======================================================
         const userAuthContainer = document.getElementById('user-auth');
+        const loginButton = document.getElementById('btn-login');
 
         auth.onAuthStateChanged(user => {
             if (user) {
@@ -151,108 +278,94 @@
                 `;
                 document.getElementById('btn-logout').addEventListener('click', () => auth.signOut());
             } else {
-                userAuthContainer.innerHTML = `<button class="btn-login" id="btn-login-google">Login com Google</button>`;
-                document.getElementById('btn-login-google').addEventListener('click', signInWithGoogle);
+                userAuthContainer.innerHTML = `<button class="btn" id="btn-login" style="padding: 10px 25px;">Login com Google</button>`;
+                document.getElementById('btn-login').addEventListener('click', signInWithGoogle);
             }
         });
 
         function signInWithGoogle() {
             const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider)
-                .catch(error => console.error("Erro no login:", error));
+            auth.signInWithPopup(provider).catch(error => console.error("Erro no login:", error));
         }
 
-        // =======================================================
-        // LÓGICA DE CRIAÇÃO E VISUALIZAÇÃO DE MISSÕES
-        // =======================================================
-        document.getElementById('btn-create-mission').addEventListener('click', () => {
+        // Claim Donation
+        document.getElementById('btn-claim').addEventListener('click', () => {
             const user = auth.currentUser;
             if (!user) {
-                alert("Você precisa estar logado para criar uma missão!");
+                alert("Por favor, faça o login com Google primeiro para registrar sua doação no ranking.");
+                signInWithGoogle();
                 return;
             }
 
-            const titulo = prompt("Qual o título da missão?");
-            if (!titulo) return;
+            const donatedAmount = prompt("Obrigado por doar! Para entrar no ranking, por favor, confirme o valor que você doou (ex: 25.50):");
+            if (donatedAmount && !isNaN(donatedAmount) && parseFloat(donatedAmount) > 0) {
+                const donationData = {
+                    userId: user.uid,
+                    userName: user.displayName,
+                    userPhoto: user.photoURL,
+                    amount: parseFloat(donatedAmount),
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    status: 'pending_verification' // Status inicial
+                };
 
-            const descricao = prompt("Descreva a missão:");
-            if (!descricao) return;
-
-            const novaMissao = {
-                titulo: titulo,
-                descricao: descricao,
-                autor: user.displayName,
-                autorId: user.uid,
-                status: "aberta",
-                criadoEm: firebase.firestore.FieldValue.serverTimestamp(),
-                categoria: "Geral",
-                pontos: 10
-            };
-
-            db.collection("missoes").add(novaMissao)
-                .then(() => {
-                    alert("Missão criada com sucesso!");
-                    localStorage.removeItem('cacheMissoes'); 
-                    obterEMostrarMissoes();
-                })
-                .catch(error => console.error("Erro ao criar missão:", error));
+                db.collection('donations').add(donationData)
+                    .then(() => {
+                        alert("Sua doação foi registrada! Ela aparecerá no ranking assim que for verificada pela nossa equipe. Muito obrigado!");
+                    })
+                    .catch(error => console.error("Erro ao registrar doação:", error));
+            } else {
+                alert("Valor inválido. Por favor, tente novamente.");
+            }
         });
 
-        async function obterEMostrarMissoes() {
-            const containerMissoes = document.querySelector('.mission-list');
-            containerMissoes.innerHTML = '<p>Buscando missões...</p>';
-
-            const cache = JSON.parse(localStorage.getItem('cacheMissoes'));
-            const dezMinutos = 10 * 60 * 1000;
-
-            if (cache && (new Date().getTime() - cache.timestamp < dezMinutos)) {
-                console.log("Dados carregados do CACHE.");
-                renderizarMissoes(cache.dados);
-            } else {
-                console.log("Buscando dados do FIREBASE.");
-                try {
-                    const snapshot = await db.collection("missoes").where("status", "==", "aberta").orderBy("criadoEm", "desc").get();
-                    const missoes = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    
-                    const novoCache = { timestamp: new Date().getTime(), dados: missoes };
-                    localStorage.setItem('cacheMissoes', JSON.stringify(novoCache));
-                    renderizarMissoes(missoes);
-                } catch (error) {
-                    console.error("Erro ao buscar missões: ", error);
-                    containerMissoes.innerHTML = '<p style="color: red; text-align: center;">Não foi possível carregar as missões.</p>';
+        // Fetch and Display Ranking
+        async function displayRanking() {
+            const rankingListContainer = document.getElementById('ranking-list-container');
+            try {
+                // Fetch only VERIFIED donations
+                const snapshot = await db.collection('donations').where('status', '==', 'verified').orderBy('createdAt', 'desc').get();
+                
+                if (snapshot.empty) {
+                    rankingListContainer.innerHTML = '<p style="text-align:center;">Nossos heróis ainda estão se aquecendo. Seja o primeiro a aparecer aqui!</p>';
+                    return;
                 }
+
+                const donationsByUser = {};
+                snapshot.docs.forEach(doc => {
+                    const data = doc.data();
+                    if (!donationsByUser[data.userId]) {
+                        donationsByUser[data.userId] = {
+                            total: 0,
+                            name: data.userName,
+                            photo: data.userPhoto
+                        };
+                    }
+                    donationsByUser[data.userId].total += data.amount;
+                });
+
+                const rankedUsers = Object.values(donationsByUser).sort((a, b) => b.total - a.total).slice(0, 10); // Top 10
+
+                rankingListContainer.innerHTML = ''; // Clear loading message
+                rankedUsers.forEach((user, index) => {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        <span class="rank-pos">#${index + 1}</span>
+                        <img src="${user.photo}" alt="Foto de ${user.name}" class="rank-img">
+                        <span class="rank-name">${user.name}</span>
+                        <span class="rank-amount">R$ ${user.total.toFixed(2).replace('.', ',')}</span>
+                    `;
+                    rankingListContainer.appendChild(listItem);
+                });
+
+            } catch (error) {
+                console.error("Erro ao carregar o ranking:", error);
+                rankingListContainer.innerHTML = '<p style="text-align:center; color:red;">Não foi possível carregar o Hall de Heróis no momento.</p>';
             }
         }
 
-        function renderizarMissoes(missoes) {
-            const containerMissoes = document.querySelector('.mission-list');
-            if (!missoes || missoes.length === 0) {
-                containerMissoes.innerHTML = '<p style="text-align: center;">Nenhuma missão aberta no momento. Que tal criar uma?</p>';
-                return;
-            }
-            containerMissoes.innerHTML = '';
-            missoes.forEach(missao => {
-                const card = document.createElement('div');
-                card.className = 'mission-card';
-                const categoria = missao.categoria?.toLowerCase() || 'default';
-                const classesCategoria = ['ambiental', 'ajuda', 'zeladoria'].includes(categoria) ? categoria : 'default';
-                card.innerHTML = `
-                    <div class="mission-header">
-                        <span class="mission-tag ${classesCategoria}">${missao.categoria || 'Geral'}</span>
-                        <span class="mission-points">+${missao.pontos || 10} Pontos</span>
-                    </div>
-                    <h4>${missao.titulo || 'Título da Missão'}</h4>
-                    <p class="mission-description">${missao.descricao || 'Descrição não informada.'}</p>
-                    <div class="mission-footer">
-                        <span class="mission-author">Criado por: ${missao.autor || 'Anônimo'}</span>
-                        <button class="btn-accept" data-id="${missao.id}">Aceitar Missão</button>
-                    </div>
-                `;
-                containerMissoes.appendChild(card);
-            });
-        }
-        
-        document.addEventListener('DOMContentLoaded', obterEMostrarMissoes);
+        // Initial Load
+        document.addEventListener('DOMContentLoaded', displayRanking);
+
     </script>
 </body>
 </html>
