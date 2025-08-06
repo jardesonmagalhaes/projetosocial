@@ -1,346 +1,689 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animus ONG - Ajude um Animal Carente</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐾</text></svg>">
-    
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;600;700&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Animus ONG - Ajude um Amigo de Quatro Patas</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐾</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+--primary-color: #654321; /* Marrom terroso /
+--secondary-color: #F5F5DC; / Bege claro /
+--accent-color: #A0522D; / Marrom avermelhado /
+--text-color: #333;
+--bg-color: #FAF0E6; / Linho */
+--white: #FFFFFF;
+--shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
 
-        :root {
-            --primary-color: #8D5B4C; /* Um marrom quente e acolhedor */
-            --secondary-color: #E4C59E; /* Um bege claro e amigável */
-            --accent-color: #D88C9A; /* Um rosa/coral para destaque */
-            --text-color: #433633;
-            --bg-color: #FDF8F5;
-            --white: #FFFFFF;
-            --shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        line-height: 1.7;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    header {
+        background-color: var(--white);
+        padding: 1rem 0;
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    header .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo {
+        color: var(--primary-color);
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+        font-size: 1.8rem;
+        text-decoration: none;
+    }
+
+    .logo span {
+        color: var(--accent-color);
+    }
+
+    nav {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    nav a {
+        text-decoration: none;
+        color: var(--text-color);
+        font-weight: 600;
+        transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+        color: var(--accent-color);
+    }
+
+    #user-auth {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    #user-auth img {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        border: 2px solid var(--primary-color);
+        object-fit: cover;
+    }
+
+    #btn-logout {
+        background-color: var(--accent-color);
+        color: var(--white);
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        border: none;
+        font-size: 0.9rem;
+    }
+
+    .hero {
+        padding: 80px 20px;
+        text-align: center;
+        background: url('[https://images.unsplash.com/photo-1561657736-c5b809f16ba3?q=80&w=2070&auto=format&fit=crop](https://images.unsplash.com/photo-1561657736-c5b809f16ba3?q=80&w=2070&auto=format&fit=crop)') no-repeat center center/cover;
+        background-color: rgba(0, 0, 0, 0.4);
+        background-blend-mode: multiply;
+        color: var(--white);
+    }
+
+    .hero h1 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 3rem;
+        margin-bottom: 15px;
+    }
+
+    .hero p {
+        font-size: 1.2rem;
+        max-width: 700px;
+        margin: 0 auto 30px;
+        line-height: 1.8;
+    }
+
+    .btn {
+        display: inline-block;
+        background-color: var(--accent-color);
+        color: var(--white);
+        padding: 12px 30px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(160, 82, 45, 0.4);
+    }
+
+    section {
+        padding: 60px 0;
+    }
+
+    section h2 {
+        font-family: 'Montserrat', sans-serif;
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+        color: var(--primary-color);
+    }
+
+    #doacao {
+        background-color: var(--white);
+    }
+
+    .donation-box {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        align-items: center;
+    }
+
+    .donation-controls h3,
+    .qr-code-box h3 {
+        margin-bottom: 15px;
+        color: var(--primary-color);
+    }
+
+    .donation-amounts {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .donation-amounts button {
+        flex-grow: 1;
+        min-width: 80px;
+        font-size: 1rem;
+        padding: 10px 15px;
+        border: 2px solid var(--secondary-color);
+        background: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-weight: 600;
+        color: var(--text-color);
+    }
+
+    .donation-amounts button.selected,
+    .donation-amounts button:hover {
+        background-color: var(--primary-color);
+        color: var(--white);
+        border-color: var(--primary-color);
+    }
+
+    .custom-amount {
+        width: 100%;
+        font-size: 1rem;
+        padding: 10px;
+        border-radius: 5px;
+        border: 2px solid var(--secondary-color);
+        font-family: 'Poppins', sans-serif;
+        margin-bottom: 20px;
+    }
+
+    .qr-code-box {
+        text-align: center;
+    }
+
+    #qrcode {
+        width: 200px;
+        height: 200px;
+        margin: 15px auto;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: var(--white);
+    }
+
+    #pix-code {
+        width: 100%;
+        padding: 8px;
+        font-size: 0.8rem;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-top: 10px;
+        word-wrap: break-word;
+        cursor: pointer;
+        text-align: center;
+        color: var(--text-color);
+    }
+
+    .btn-claim {
+        background-color: var(--primary-color);
+        width: 100%;
+        margin-top: 15px;
+        font-size: 0.9rem;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        color: var(--white);
+    }
+
+    /* Ranking Section */
+    .ranking-list {
+        list-style: none;
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 0;
+    }
+
+    .ranking-list li {
+        display: flex;
+        align-items: center;
+        background: var(--white);
+        padding: 12px 20px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        box-shadow: var(--shadow);
+        transition: transform 0.2s;
+    }
+
+    .ranking-list li:hover {
+        transform: scale(1.01);
+    }
+
+    .rank-pos {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--accent-color);
+        min-width: 30px;
+        text-align: center;
+        margin-right: 15px;
+    }
+
+    .rank-img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 15px;
+        object-fit: cover;
+        border: 2px solid var(--secondary-color);
+    }
+
+    .rank-name {
+        font-weight: 600;
+        font-size: 1rem;
+        flex-grow: 1;
+    }
+
+    .rank-amount {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: var(--primary-color);
+        min-width: 80px;
+        text-align: right;
+    }
+
+    /* Team Section */
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+        text-align: center;
+    }
+
+    .team-member {
+        padding: 15px;
+        background-color: var(--white);
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+    }
+
+    .team-member img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--secondary-color);
+        margin-bottom: 10px;
+    }
+
+    .team-member h4 {
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+        color: var(--primary-color);
+    }
+
+    .team-member p {
+        font-size: 0.9rem;
+        color: var(--text-color);
+    }
+
+    /* Footer */
+    footer {
+        text-align: center;
+        padding: 20px 0;
+        font-size: 0.8rem;
+        color: var(--text-color);
+    }
+
+    /* Mobile Styles */
+    @media (max-width: 768px) {
+        .container {
+            padding: 15px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.7;
+        header .container {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
         }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-
-        /* Header */
-        header {
-            background-color: var(--white);
-            padding: 1rem 0;
-            box-shadow: var(--shadow);
-            position: sticky; top: 0; z-index: 1000;
+        nav {
+            width: 100%;
+            flex-direction: column;
+            align-items: stretch;
+            margin-top: 10px;
+            gap: 5px;
         }
-        header .container { display: flex; justify-content: space-between; align-items: center; }
-        .logo { color: var(--primary-color); font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.8rem; text-decoration: none; }
-        .logo span { color: var(--accent-color); }
-        nav { display: flex; align-items: center; gap: 25px; }
-        nav a { text-decoration: none; color: var(--text-color); font-weight: 600; transition: color 0.3s ease; }
-        nav a:hover { color: var(--primary-color); }
-        #user-auth img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-color); }
-        #user-auth { display: flex; align-items: center; gap: 10px; }
-        #btn-logout { background-color: var(--accent-color); color: white; padding: 8px 15px; border-radius: 5px; cursor: pointer; border: none; }
 
-        /* Hero Section */
-        .hero { text-align: center; padding: 100px 20px; background: url('https://images.unsplash.com/photo-1548681528-6a5c45b66b42?q=80&w=1974&auto=format&fit=crop') no-repeat center center/cover; background-color: rgba(0,0,0,0.5); background-blend-mode: multiply; color: var(--white); }
-        .hero h1 { font-family: 'Montserrat', sans-serif; font-size: 3.5rem; margin-bottom: 15px; }
-        .hero p { font-size: 1.3rem; max-width: 600px; margin: 0 auto 30px; }
-        .btn { display: inline-block; background-color: var(--accent-color); color: var(--white); padding: 15px 35px; border-radius: 50px; text-decoration: none; font-weight: 700; transition: all 0.3s ease; }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(216, 140, 154, 0.5); }
+        nav a {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        nav a:last-child {
+            border-bottom: none;
+        }
 
-        /* Sections */
-        section { padding: 80px 0; }
-        section h2 { font-family: 'Montserrat', sans-serif; text-align: center; font-size: 2.8rem; margin-bottom: 50px; color: var(--primary-color); }
-        #doacao { background-color: var(--white); }
+        .hero {
+            padding: 60px 15px;
+        }
 
-        /* Donation Section */
-        .donation-box { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
-        .donation-amounts button { width: 100%; font-size: 1.2rem; padding: 15px; margin-bottom: 15px; border: 2px solid var(--secondary-color); background: none; border-radius: 10px; cursor: pointer; transition: all 0.3s; font-weight: 600; }
-        .donation-amounts button.selected, .donation-amounts button:hover { background-color: var(--primary-color); color: var(--white); border-color: var(--primary-color); }
-        .custom-amount { width: 100%; font-size: 1.2rem; padding: 15px; border-radius: 10px; border: 2px solid var(--secondary-color); font-family: 'Poppins', sans-serif; }
-        .qr-code-box { text-align: center; }
-        #qrcode { width: 256px; height: 256px; margin: 20px auto; padding: 10px; border: 1px solid #ddd; border-radius: 10px; }
-        #pix-code { width: 100%; padding: 10px; font-size: 0.9rem; background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 5px; margin-top: 15px; word-wrap: break-word; }
-        .btn-claim { background-color: var(--primary-color); width: 100%; margin-top: 20px; font-size: 1rem; padding: 12px; }
+        .hero h1 {
+            font-size: 2.5rem;
+        }
 
-        /* Ranking Section */
-        .ranking-list { list-style: none; max-width: 700px; margin: 0 auto; }
-        .ranking-list li { display: flex; align-items: center; background: var(--white); padding: 15px 25px; border-radius: 15px; margin-bottom: 15px; box-shadow: var(--shadow); transition: transform 0.2s; }
-        .ranking-list li:hover { transform: scale(1.02); }
-        .rank-pos { font-size: 1.5rem; font-weight: 700; color: var(--accent-color); min-width: 50px; }
-        .rank-img { width: 50px; height: 50px; border-radius: 50%; margin-right: 20px; }
-        .rank-name { font-weight: 600; font-size: 1.2rem; flex-grow: 1; }
-        .rank-amount { font-weight: 700; font-size: 1.3rem; color: var(--primary-color); }
+        .donation-box {
+            grid-template-columns: 1fr;
+        }
 
-        /* Team Section */
-        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
-        .team-member { text-align: center; }
-        .team-member img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 5px solid var(--secondary-color); margin-bottom: 15px; }
-        .team-member h4 { font-size: 1.3rem; margin-bottom: 5px; }
-    </style>
+        .donation-amounts {
+            gap: 5px;
+        }
+
+        .donation-amounts button {
+            font-size: 0.9rem;
+            padding: 8px 12px;
+        }
+
+        .qr-code-box {
+            margin-top: 30px;
+        }
+
+        #qrcode {
+            width: 150px;
+            height: 150px;
+        }
+
+        .team-grid {
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        }
+    }
+</style>
 </head>
 <body>
 
-    <header>
+<header>
+    <div class="container">
+        <a href="#" class="logo">Animus<span>.</span>ONG</a>
+        <nav>
+            <a href="#doacao">Doar Agora</a>
+            <a href="#ranking">Hall dos Heróis</a>
+            <a href="#time">Nosso Time</a>
+            <div id="user-auth">
+                <button class="btn" id="btn-login" style="padding: 8px 15px; font-size: 0.9rem;">Login</button>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section class="hero">
+        <h1>Amor em cada patinha.</h1>
+        <p>Sua doação transforma vidas e oferece um futuro mais feliz para os nossos amigos de quatro patas em Senador Pompeu - CE. Junte-se à Animus ONG nesta corrente de solidariedade.</p>
+        <a href="#doacao" class="btn">QUERO AJUDAR</a>
+    </section>
+
+    <section id="doacao">
         <div class="container">
-            <a href="#" class="logo">Animus<span>.</span>ONG</a>
-            <nav>
-                <a href="#doacao">Doar Agora</a>
-                <a href="#ranking">Hall dos Heróis</a>
-                <a href="#time">Nosso Time</a>
-                <div id="user-auth">
-                    <button class="btn" id="btn-login" style="padding: 10px 25px;">Login</button>
+            <h2>Faça sua Doação</h2>
+            <div class="donation-box">
+                <div class="donation-controls">
+                    <h3>1. Escolha um valor</h3>
+                    <div class="donation-amounts">
+                        <button data-amount="10">R$ 10</button>
+                        <button data-amount="25">R$ 25</button>
+                        <button data-amount="50">R$ 50</button>
+                        <button data-amount="100">R$ 100</button>
+                        <button data-amount="outro">Outro Valor</button>
+                    </div>
+                    <input type="number" id="custom-amount" class="custom-amount" placeholder="Digite o valor aqui" style="display: none;">
                 </div>
-            </nav>
+                <div class="qr-code-box">
+                    <h3>2. Pague com PIX</h3>
+                    <div id="qrcode"></div>
+                    <p><strong>Chave PIX (E-mail):</strong> animusong@gmail.com</p>
+                    <textarea id="pix-code" readonly rows="3" title="Código PIX Copia e Cola"></textarea>
+                    <button class="btn btn-claim" id="btn-claim">Já doei! Quero ir para o ranking</button>
+                </div>
+            </div>
         </div>
-    </header>
+    </section>
 
-    <main>
-        <section class="hero">
-            <h1>Cada vida importa.</h1>
-            <p>Sua doação se transforma em ração, medicamentos e esperança para centenas de animais em Senador Pompeu - CE. Ajude a Animus ONG a continuar este trabalho.</p>
-            <a href="#doacao" class="btn">QUERO AJUDAR</a>
-        </section>
+    <section id="ranking">
+        <div class="container">
+            <h2>Hall dos Heróis</h2>
+            <ol class="ranking-list" id="ranking-list-container">
+                <p style="text-align:center;">Carregando ranking...</p>
+            </ol>
+        </div>
+    </section>
 
-        <section id="doacao">
-            <div class="container">
-                <h2>Faça sua Doação</h2>
-                <div class="donation-box">
-                    <div class="donation-controls">
-                        <h3>1. Escolha um valor</h3>
-                        <div class="donation-amounts">
-                            <button data-amount="10">R$ 10,00</button>
-                            <button data-amount="25">R$ 25,00</button>
-                            <button data-amount="50">R$ 50,00</button>
-                        </div>
-                        <input type="number" id="custom-amount" class="custom-amount" placeholder="Ou digite outro valor">
-                    </div>
-                    <div class="qr-code-box">
-                        <h3>2. Pague com PIX</h3>
-                        <div id="qrcode"></div>
-                        <p><strong>Chave PIX (E-mail):</strong> animusong@gmail.com</p>
-                        <textarea id="pix-code" readonly rows="3" title="Código PIX Copia e Cola"></textarea>
-                        <button class="btn btn-claim" id="btn-claim">Já doei! Quero ir para o ranking</button>
-                    </div>
+    <section id="time" style="background-color: var(--white);">
+        <div class="container">
+            <h2>Nossos Amigos</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <img src="[https://images.unsplash.com/photo-1552053831-71594a27632d?q=80&w=1920&auto=format&fit=crop](https://images.unsplash.com/photo-1552053831-71594a27632d?q=80&w=1920&auto=format&fit=crop)" alt="Cachorro 1">
+                    <h4>Rex</h4>
+                    <p>Um companheiro leal.</p>
+                </div>
+                <div class="team-member">
+                    <img src="[https://images.unsplash.com/photo-1568558567041-f6f9869df53c?q=80&w=1932&auto=format&fit=crop](https://images.unsplash.com/photo-1568558567041-f6f9869df53c?q=80&w=1932&auto=format&fit=crop)" alt="Cachorro 2">
+                    <h4>Mel</h4>
+                    <p>Doce e brincalhona.</p>
+                </div>
+                <div class="team-member">
+                    <img src="[https://images.unsplash.com/photo-1590774267112-8253d21461e0?q=80&w=1974&auto=format&fit=crop](https://images.unsplash.com/photo-1590774267112-8253d21461e0?q=80&w=1974&auto=format&fit=crop)" alt="Cachorro 3">
+                    <h4>Thor</h4>
+                    <p>Forte e carinhoso.</p>
+                </div>
+                <div class="team-member">
+                    <img src="[https://images.unsplash.com/photo-1583511655826-05700d52f4d9?q=80&w=2070&auto=format&fit=crop](https://images.unsplash.com/photo-1583511655826-05700d52f4d9?q=80&w=2070&auto=format&fit=crop)" alt="Cachorro 4">
+                    <h4>Luna</h4>
+                    <p>Adora um colo.</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="ranking">
-            <div class="container">
-                <h2>Hall dos Heróis</h2>
-                <ol class="ranking-list" id="ranking-list-container">
-                    <p style="text-align:center;">Carregando ranking...</p>
-                </ol>
-            </div>
-        </section>
-        
-        <section id="time" style="background-color: var(--white);">
-            <div class="container">
-                <h2>Nosso Time</h2>
-                <div class="team-grid">
-                    <div class="team-member">
-                        <img src="https://via.placeholder.com/150" alt="Foto Membro 1">
-                        <h4>Jardeson</h4>
-                        <p>Fundador</p>
-                    </div>
-                    <div class="team-member">
-                        <img src="https://via.placeholder.com/150" alt="Foto Membro 2">
-                        <h4>Amigo Fiel</h4>
-                        <p>Cão-sultor</p>
-                    </div>
-                    <div class="team-member">
-                        <img src="https://via.placeholder.com/150" alt="Foto Membro 3">
-                        <h4>Miau da Silva</h4>
-                        <p>Gato-gerente</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Animus ONG. Juntos, salvando vidas.</p>
+            <p>PIX: animusong@gmail.com</p>
+        </div>
+    </footer>
 
-    </main>
-    
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+</main>
 
-    <script>
-        // =======================================================
-        // CONFIGURAÇÃO DO FIREBASE ATUALIZADA
-        // =======================================================
-        const firebaseConfig = {
-            apiKey: "COLE_AQUI_A_SUA_CHAVE_DE_API_DO_GOOGLE_CLOUD",
-            authDomain: "projetosocial-660ae.firebaseapp.com",
-            projectId: "projetosocial-660ae",
-            storageBucket: "projetosocial-660ae.appspot.com",
-            messagingSenderId: "109542583033",
-            appId: "1:109542583033:web:f3f475f71e29cf6fe15828"
-        };
-        
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        const auth = firebase.auth();
+<script src="[https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js](https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js)"></script>
+<script src="[https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js](https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js)"></script>
+<script src="[https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js](https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js)"></script>
+<script src="[https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js](https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js)"></script>
 
-        // =======================================================
-        // LÓGICA DE DOAÇÃO PIX
-        // =======================================================
-        const pixKey = "animusong@gmail.com";
-        const merchantName = "Animus ONG";
-        const merchantCity = "SENADOR POMPEU";
-        let selectedAmount = 25.00;
-        const qrcodeContainer = document.getElementById('qrcode');
-        const pixCodeTextarea = document.getElementById('pix-code');
-        const qr = new QRCode(qrcodeContainer, { width: 256, height: 256 });
+<script>
+    // =======================================================
+    // CONFIGURAÇÃO DO FIREBASE ATUALIZADA
+    // =======================================================
+    const firebaseConfig = {
+        apiKey: "COLE_AQUI_A_SUA_CHAVE_DE_API_DO_GOOGLE_CLOUD",
+        authDomain: "projetosocial-660ae.firebaseapp.com",
+        projectId: "projetosocial-660ae",
+        storageBucket: "projetosocial-660ae.appspot.com",
+        messagingSenderId: "109542583033",
+        appId: "1:109542583033:web:f3f475f71e29cf6fe15828"
+    };
 
-        function generatePIXPayload(key, amount, name, city) {
-            const formattedAmount = amount.toFixed(2);
-            const payload = [
-                '000201', '26' + (key.length + 18).toString().padStart(2, '0') + '0014br.gov.bcb.pix01' + key.length.toString().padStart(2, '0') + key,
-                '52040000', '5303986', '54' + formattedAmount.length.toString().padStart(2, '0') + formattedAmount,
-                '5802BR', '59' + name.slice(0, 25).length.toString().padStart(2, '0') + name.slice(0, 25),
-                '60' + city.slice(0, 15).length.toString().padStart(2, '0') + city.slice(0, 15),
-                '62070503***'
-            ].join('');
-            let crc16 = 0xFFFF;
-            const fullPayload = payload + '6304';
-            for (let i = 0; i < fullPayload.length; i++) {
-                crc16 ^= fullPayload.charCodeAt(i) << 8;
-                for (let j = 0; j < 8; j++) {
-                    crc16 = (crc16 & 0x8000) ? (crc16 << 1) ^ 0x1021 : crc16 << 1;
-                }
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const auth = firebase.auth();
+
+    // =======================================================
+    // LÓGICA DE DOAÇÃO PIX
+    // =======================================================
+    const pixKey = "animusong@gmail.com";
+    const merchantName = "Animus ONG";
+    const merchantCity = "SENADOR POMPEU";
+    let selectedAmount = 25.00;
+    const qrcodeContainer = document.getElementById('qrcode');
+    const pixCodeTextarea = document.getElementById('pix-code');
+    const qr = new QRCode(qrcodeContainer, { width: 200, height: 200 });
+
+    function generatePIXPayload(key, amount, name, city) {
+        const formattedAmount = amount.toFixed(2);
+        const payload = [
+            '000201', '26' + (key.length + 18).toString().padStart(2, '0') + '0014br.gov.bcb.pix01' + key.length.toString().padStart(2, '0') + key,
+            '52040000', '5303986', '54' + formattedAmount.length.toString().padStart(2, '0') + formattedAmount,
+            '5802BR', '59' + name.slice(0, 25).length.toString().padStart(2, '0') + name.slice(0, 25),
+            '60' + city.slice(0, 15).length.toString().padStart(2, '0') + city.slice(0, 15),
+            '62070503***'
+        ].join('');
+        let crc16 = 0xFFFF;
+        const fullPayload = payload + '6304';
+        for (let i = 0; i < fullPayload.length; i++) {
+            crc16 ^= fullPayload.charCodeAt(i) << 8;
+            for (let j = 0; j < 8; j++) {
+                crc16 = (crc16 & 0x8000) ? (crc16 << 1) ^ 0x1021 : crc16 << 1;
             }
-            const crc16Hex = (crc16 & 0xFFFF).toString(16).toUpperCase().padStart(4, '0');
-            return fullPayload + crc16Hex;
         }
+        const crc16Hex = (crc16 & 0xFFFF).toString(16).toUpperCase().padStart(4, '0');
+        return fullPayload + crc16Hex;
+    }
 
-        function updateQRCode(amount) {
-            const payload = generatePIXPayload(pixKey, amount, merchantName, merchantCity);
-            qr.makeCode(payload);
-            pixCodeTextarea.value = payload;
-            pixCodeTextarea.onclick = () => { navigator.clipboard.writeText(payload); alert('Código PIX copiado!'); };
-        }
-        
-        const amountButtons = document.querySelectorAll('.donation-amounts button');
-        const customAmountInput = document.getElementById('custom-amount');
+    function updateQRCode(amount) {
+        const payload = generatePIXPayload(pixKey, amount, merchantName, merchantCity);
+        qr.makeCode(payload);
+        pixCodeTextarea.value = payload;
+        pixCodeTextarea.onclick = () => { navigator.clipboard.writeText(payload); alert('Código PIX copiado!'); };
+    }
 
-        amountButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                amountButtons.forEach(btn => btn.classList.remove('selected'));
-                button.classList.add('selected');
+    const amountButtons = document.querySelectorAll('.donation-amounts button');
+    const customAmountInput = document.getElementById('custom-amount');
+    const outroValorButton = document.querySelector('.donation-amounts button:last-child');
+
+    amountButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            amountButtons.forEach(btn => btn.classList.remove('selected'));
+            button.classList.add('selected');
+            if (button === outroValorButton) {
+                customAmountInput.style.display = 'block';
+                customAmountInput.focus();
+                selectedAmount = 0;
+            } else {
+                customAmountInput.style.display = 'none';
                 selectedAmount = parseFloat(button.dataset.amount);
                 customAmountInput.value = '';
                 updateQRCode(selectedAmount);
-            });
-        });
-        
-        customAmountInput.addEventListener('input', () => {
-            amountButtons.forEach(btn => btn.classList.remove('selected'));
-            const customValue = parseFloat(customAmountInput.value);
-            if (customValue > 0) {
-                selectedAmount = customValue;
-                updateQRCode(selectedAmount);
             }
         });
-        
-        document.querySelector('.donation-amounts button[data-amount="25"]').classList.add('selected');
-        updateQRCode(selectedAmount);
+    });
 
-        // =======================================================
-        // LÓGICA DE AUTENTICAÇÃO E RANKING
-        // =======================================================
-        const userAuthContainer = document.getElementById('user-auth');
-
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                userAuthContainer.innerHTML = `
-                    <span>Olá, ${user.displayName.split(' ')[0]}</span>
-                    <img src="${user.photoURL}" alt="Foto de perfil" title="${user.displayName}">
-                    <button id="btn-logout">Sair</button>
-                `;
-                document.getElementById('btn-logout').addEventListener('click', () => auth.signOut());
-            } else {
-                userAuthContainer.innerHTML = `<button class="btn" id="btn-login" style="padding: 10px 25px;">Login com Google</button>`;
-                document.getElementById('btn-login').addEventListener('click', signInWithGoogle);
-            }
-        });
-
-        function signInWithGoogle() {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider).catch(error => console.error("Erro no login:", error));
+    customAmountInput.addEventListener('input', () => {
+        amountButtons.forEach(btn => btn.classList.remove('selected'));
+        outroValorButton.classList.add('selected');
+        const customValue = parseFloat(customAmountInput.value.replace(',', '.'));
+        if (!isNaN(customValue) && customValue > 0) {
+            selectedAmount = customValue;
+            updateQRCode(selectedAmount);
+        } else if (customAmountInput.value === '') {
+            selectedAmount = 0;
+            updateQRCode(selectedAmount);
         }
+    });
 
-        document.getElementById('btn-claim').addEventListener('click', () => {
-            const user = auth.currentUser;
-            if (!user) {
-                alert("Por favor, faça o login com Google primeiro para registrar sua doação no ranking.");
-                signInWithGoogle();
+    document.querySelector('.donation-amounts button:nth-child(2)').classList.add('selected');
+    updateQRCode(selectedAmount);
+
+    // =======================================================
+    // LÓGICA DE AUTENTICAÇÃO E RANKING
+    // =======================================================
+    const userAuthContainer = document.getElementById('user-auth');
+
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            userAuthContainer.innerHTML = `
+                <span>Olá, ${user.displayName.split(' ')[0]}</span>
+                <img src="${user.photoURL}" alt="Foto de perfil" title="${user.displayName}">
+                <button id="btn-logout">Sair</button>
+            `;
+            document.getElementById('btn-logout').addEventListener('click', () => auth.signOut());
+        } else {
+            userAuthContainer.innerHTML = `<button class="btn" id="btn-login" style="padding: 8px 15px; font-size: 0.9rem;">Login com Google</button>`;
+            document.getElementById('btn-login').addEventListener('click', signInWithGoogle);
+        }
+    });
+
+    function signInWithGoogle() {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        auth.signInWithPopup(provider).catch(error => console.error("Erro no login:", error));
+    }
+
+    document.getElementById('btn-claim').addEventListener('click', () => {
+        const user = auth.currentUser;
+        if (!user) {
+            alert("Por favor, faça o login com Google primeiro para registrar sua doação no ranking.");
+            signInWithGoogle();
+            return;
+        }
+        const donatedAmountStr = prompt("Obrigado por doar! Para entrar no ranking, por favor, confirme o valor que você doou (use ponto para centavos, ex: 25.50):");
+        if (donatedAmountStr) {
+            const donatedAmount = parseFloat(donatedAmountStr.replace(',', '.'));
+            if (!isNaN(donatedAmount) && donatedAmount > 0) {
+                const donationData = {
+                    userId: user.uid,
+                    userName: user.displayName,
+                    userPhoto: user.photoURL,
+                    amount: donatedAmount,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    status: 'pending_verification'
+                };
+                db.collection('donations').add(donationData)
+                    .then(() => {
+                        alert("Sua doação foi registrada! Ela aparecerá no ranking assim que for verificada pela nossa equipe. Muito obrigado!");
+                    })
+                    .catch(error => console.error("Erro ao registrar doação:", error));
+            } else {
+                alert("Valor inválido. Por favor, digite apenas números.");
+            }
+        }
+    });
+
+    async function displayRanking() {
+        const rankingListContainer = document.getElementById('ranking-list-container');
+        try {
+            const snapshot = await db.collection('donations').where('status', '==', 'verified').orderBy('amount', 'desc').limit(10).get();
+            if (snapshot.empty) {
+                rankingListContainer.innerHTML = '<p style="text-align:center;">Nossos heróis ainda estão se aquecendo. Seja o primeiro a aparecer aqui!</p>';
                 return;
             }
-            const donatedAmountStr = prompt("Obrigado por doar! Para entrar no ranking, por favor, confirme o valor que você doou (use ponto para centavos, ex: 25.50):");
-            if (donatedAmountStr) {
-                const donatedAmount = parseFloat(donatedAmountStr.replace(',', '.'));
-                if (!isNaN(donatedAmount) && donatedAmount > 0) {
-                    const donationData = {
-                        userId: user.uid,
-                        userName: user.displayName,
-                        userPhoto: user.photoURL,
-                        amount: donatedAmount,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        status: 'pending_verification'
-                    };
-                    db.collection('donations').add(donationData)
-                        .then(() => {
-                            alert("Sua doação foi registrada! Ela aparecerá no ranking assim que for verificada pela nossa equipe. Muito obrigado!");
-                        })
-                        .catch(error => console.error("Erro ao registrar doação:", error));
-                } else {
-                    alert("Valor inválido. Por favor, digite apenas números.");
-                }
-            }
-        });
-
-        async function displayRanking() {
-            const rankingListContainer = document.getElementById('ranking-list-container');
-            try {
-                const snapshot = await db.collection('donations').where('status', '==', 'verified').get();
-                if (snapshot.empty) {
-                    rankingListContainer.innerHTML = '<p style="text-align:center;">Nossos heróis ainda estão se aquecendo. Seja o primeiro a aparecer aqui!</p>';
-                    return;
-                }
-                const donationsByUser = {};
-                snapshot.docs.forEach(doc => {
-                    const data = doc.data();
-                    if (!donationsByUser[data.userId]) {
-                        donationsByUser[data.userId] = { total: 0, name: data.userName, photo: data.userPhoto };
-                    }
-                    donationsByUser[data.userId].total += data.amount;
-                });
-                const rankedUsers = Object.values(donationsByUser).sort((a, b) => b.total - a.total).slice(0, 10);
-                rankingListContainer.innerHTML = '';
-                rankedUsers.forEach((user, index) => {
-                    const listItem = document.createElement('li');
-                    listItem.innerHTML = `
-                        <span class="rank-pos">#${index + 1}</span>
-                        <img src="${user.photo}" alt="Foto de ${user.name}" class="rank-img">
-                        <span class="rank-name">${user.name}</span>
-                        <span class="rank-amount">R$ ${user.total.toFixed(2).replace('.', ',')}</span>
-                    `;
-                    rankingListContainer.appendChild(listItem);
-                });
-            } catch (error) {
-                console.error("Erro ao carregar o ranking:", error);
-                rankingListContainer.innerHTML = '<p style="text-align:center; color:red;">Não foi possível carregar o Hall de Heróis. Verifique as regras de segurança do Firestore.</p>';
-            }
+            const rankedDonations = snapshot.docs.map(doc => doc.data());
+            rankingListContainer.innerHTML = '';
+            rankedDonations.forEach((donation, index) => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    <span class="rank-pos">#${index + 1}</span>
+                    <img src="${donation.userPhoto}" alt="Foto de ${donation.userName}" class="rank-img">
+                    <span class="rank-name">${donation.userName}</span>
+                    <span class="rank-amount">R$ ${donation.amount.toFixed(2).replace('.', ',')}</span>
+                `;
+                rankingListContainer.appendChild(listItem);
+            });
+        } catch (error) {
+            console.error("Erro ao carregar o ranking:", error);
+            rankingListContainer.innerHTML = '<p style="text-align:center; color:red;">Não foi possível carregar o Hall de Heróis. Verifique sua conexão e as regras de segurança do Firestore.</p>';
         }
-        
-        document.addEventListener('DOMContentLoaded', displayRanking);
-    </script>
+    }
+
+    document.addEventListener('DOMContentLoaded', displayRanking);
+</script>
 </body>
 </html>
