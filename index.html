@@ -140,7 +140,7 @@
                     <div class="qr-code-box">
                         <h3>2. Pague com PIX</h3>
                         <div id="qrcode"></div>
-                        <p><strong>Chave PIX (E-mail):</strong> animusong@gmail.com</p>
+                        <p><strong>Chave PIX (E-mail):</strong> onganimus@gmail.com</p>
                         <textarea id="pix-code" readonly rows="3" title="Clique para copiar o código PIX"></textarea>
                         <button class="btn btn-claim" id="btn-claim">Já doei! Quero ir para o ranking</button>
                     </div>
@@ -198,15 +198,16 @@
         document.addEventListener('DOMContentLoaded', () => {
 
             // =======================================================
-            // CONFIGURAÇÃO DO FIREBASE COM SUA CHAVE REAL
+            // CONFIGURAÇÃO FINAL E CORRETA DO SEU NOVO PROJETO FIREBASE
             // =======================================================
             const firebaseConfig = {
-                apiKey: "AIzaSyDnPa-BIcP-8-QQOk-jpJARGORDev8lCnF-Y",
-                authDomain: "projetosocial-660ae.firebaseapp.com",
-                projectId: "projetosocial-660ae",
-                storageBucket: "projetosocial-660ae.appspot.com",
-                messagingSenderId: "109542583033",
-                appId: "1:109542583033:web:f3f475f71e29cf6fe15828"
+                apiKey: "AIzaSyCKA4nxvDR3IrVcrvBVwLNPoUepjPPM",
+                authDomain: "ong-animus-oficial.firebaseapp.com",
+                projectId: "ong-animus-oficial",
+                storageBucket: "ong-animus-oficial.appspot.com",
+                messagingSenderId: "387798837633",
+                appId: "1:387798837633:web:c4837caabffb87f44a6b8f",
+                measurementId: "G-3L1K94H8EC"
             };
             
             firebase.initializeApp(firebaseConfig);
@@ -216,7 +217,7 @@
             // =======================================================
             // LÓGICA DE DOAÇÃO PIX
             // =======================================================
-            const pixKey = "animusong@gmail.com";
+            const pixKey = "onganimus@gmail.com";
             const merchantName = "Animus ONG";
             const merchantCity = "SENADOR POMPEU";
             let selectedAmount = 25.00;
