@@ -147,18 +147,18 @@
                 <div class="team-grid">
                     <div class="team-member">
                         <img src="https://via.placeholder.com/150" alt="Foto Membro 1">
-                        <h4>Fulano de Tal</h4>
-                        <p>Presidente</p>
+                        <h4>Jardeson</h4>
+                        <p>Fundador</p>
                     </div>
                     <div class="team-member">
                         <img src="https://via.placeholder.com/150" alt="Foto Membro 2">
-                        <h4>Ciclana Silva</h4>
-                        <p>Veterinária</p>
+                        <h4>Amigo Fiel</h4>
+                        <p>Cão-sultor</p>
                     </div>
                     <div class="team-member">
                         <img src="https://via.placeholder.com/150" alt="Foto Membro 3">
-                        <h4>Beltrano Souza</h4>
-                        <p>Voluntário</p>
+                        <h4>Miau da Silva</h4>
+                        <p>Gato-gerente</p>
                     </div>
                 </div>
             </div>
@@ -167,22 +167,21 @@
     </main>
     
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-    
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
 
     <script>
         // =======================================================
-        // SUA CONFIGURAÇÃO DO FIREBASE
+        // CONFIGURAÇÃO DO FIREBASE ATUALIZADA
         // =======================================================
         const firebaseConfig = {
-            apiKey: "SUA_CHAVE_DE_API",
-            authDomain: "SEU_DOMINIO.firebaseapp.com",
-            projectId: "SEU_ID_DE_PROJETO",
-            storageBucket: "SEU_BUCKET.appspot.com",
-            messagingSenderId: "SEU_SENDER_ID",
-            appId: "SEU_APP_ID"
+            apiKey: "COLE_AQUI_A_SUA_CHAVE_DE_API_DO_GOOGLE_CLOUD",
+            authDomain: "projetosocial-660ae.firebaseapp.com",
+            projectId: "projetosocial-660ae",
+            storageBucket: "projetosocial-660ae.appspot.com",
+            messagingSenderId: "109542583033",
+            appId: "1:109542583033:web:f3f475f71e29cf6fe15828"
         };
         
         firebase.initializeApp(firebaseConfig);
@@ -195,48 +194,39 @@
         const pixKey = "animusong@gmail.com";
         const merchantName = "Animus ONG";
         const merchantCity = "SENADOR POMPEU";
-        let selectedAmount = 25.00; // Default amount
+        let selectedAmount = 25.00;
         const qrcodeContainer = document.getElementById('qrcode');
         const pixCodeTextarea = document.getElementById('pix-code');
         const qr = new QRCode(qrcodeContainer, { width: 256, height: 256 });
 
-        function formatAmount(amount) {
-            return amount.toFixed(2).replace('.', ',');
-        }
-        
-        // Função para gerar payload do PIX (formato BRCode)
         function generatePIXPayload(key, amount, name, city) {
             const formattedAmount = amount.toFixed(2);
             const payload = [
-                '000201', // Payload Format Indicator
-                '26' + (key.length + 18).toString().padStart(2, '0') + '0014br.gov.bcb.pix01' + key.length.toString().padStart(2, '0') + key,
-                '52040000', // Merchant Category Code (0000 for unspecified)
-                '5303986',  // Transaction Currency (986 for BRL)
-                '54' + formattedAmount.length.toString().padStart(2, '0') + formattedAmount,
-                '5802BR', // Country Code
-                '59' + name.length.toString().padStart(2, '0') + name,
-                '60' + city.length.toString().padStart(2, '0') + city,
-                '62070503***' // Transaction ID
-            ];
-            const payloadString = payload.join('');
-            const crc16 = (payloadString + '6304').split('').reduce((acc, char) => {
-                let crc = acc ^ char.charCodeAt(0);
-                for (let i = 0; i < 8; i++) {
-                    crc = crc & 1 ? (crc >> 1) ^ 0x8408 : crc >> 1;
+                '000201', '26' + (key.length + 18).toString().padStart(2, '0') + '0014br.gov.bcb.pix01' + key.length.toString().padStart(2, '0') + key,
+                '52040000', '5303986', '54' + formattedAmount.length.toString().padStart(2, '0') + formattedAmount,
+                '5802BR', '59' + name.slice(0, 25).length.toString().padStart(2, '0') + name.slice(0, 25),
+                '60' + city.slice(0, 15).length.toString().padStart(2, '0') + city.slice(0, 15),
+                '62070503***'
+            ].join('');
+            let crc16 = 0xFFFF;
+            const fullPayload = payload + '6304';
+            for (let i = 0; i < fullPayload.length; i++) {
+                crc16 ^= fullPayload.charCodeAt(i) << 8;
+                for (let j = 0; j < 8; j++) {
+                    crc16 = (crc16 & 0x8000) ? (crc16 << 1) ^ 0x1021 : crc16 << 1;
                 }
-                return crc;
-            }, 0xFFFF).toString(16).toUpperCase().padStart(4, '0');
-            
-            return payloadString + '6304' + crc16;
+            }
+            const crc16Hex = (crc16 & 0xFFFF).toString(16).toUpperCase().padStart(4, '0');
+            return fullPayload + crc16Hex;
         }
 
         function updateQRCode(amount) {
             const payload = generatePIXPayload(pixKey, amount, merchantName, merchantCity);
             qr.makeCode(payload);
             pixCodeTextarea.value = payload;
+            pixCodeTextarea.onclick = () => { navigator.clipboard.writeText(payload); alert('Código PIX copiado!'); };
         }
         
-        // Event Listeners for donation amounts
         const amountButtons = document.querySelectorAll('.donation-amounts button');
         const customAmountInput = document.getElementById('custom-amount');
 
@@ -259,7 +249,6 @@
             }
         });
         
-        // Initial QR Code
         document.querySelector('.donation-amounts button[data-amount="25"]').classList.add('selected');
         updateQRCode(selectedAmount);
 
@@ -267,7 +256,6 @@
         // LÓGICA DE AUTENTICAÇÃO E RANKING
         // =======================================================
         const userAuthContainer = document.getElementById('user-auth');
-        const loginButton = document.getElementById('btn-login');
 
         auth.onAuthStateChanged(user => {
             if (user) {
@@ -288,7 +276,6 @@
             auth.signInWithPopup(provider).catch(error => console.error("Erro no login:", error));
         }
 
-        // Claim Donation
         document.getElementById('btn-claim').addEventListener('click', () => {
             const user = auth.currentUser;
             if (!user) {
@@ -296,56 +283,47 @@
                 signInWithGoogle();
                 return;
             }
-
-            const donatedAmount = prompt("Obrigado por doar! Para entrar no ranking, por favor, confirme o valor que você doou (ex: 25.50):");
-            if (donatedAmount && !isNaN(donatedAmount) && parseFloat(donatedAmount) > 0) {
-                const donationData = {
-                    userId: user.uid,
-                    userName: user.displayName,
-                    userPhoto: user.photoURL,
-                    amount: parseFloat(donatedAmount),
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    status: 'pending_verification' // Status inicial
-                };
-
-                db.collection('donations').add(donationData)
-                    .then(() => {
-                        alert("Sua doação foi registrada! Ela aparecerá no ranking assim que for verificada pela nossa equipe. Muito obrigado!");
-                    })
-                    .catch(error => console.error("Erro ao registrar doação:", error));
-            } else {
-                alert("Valor inválido. Por favor, tente novamente.");
+            const donatedAmountStr = prompt("Obrigado por doar! Para entrar no ranking, por favor, confirme o valor que você doou (use ponto para centavos, ex: 25.50):");
+            if (donatedAmountStr) {
+                const donatedAmount = parseFloat(donatedAmountStr.replace(',', '.'));
+                if (!isNaN(donatedAmount) && donatedAmount > 0) {
+                    const donationData = {
+                        userId: user.uid,
+                        userName: user.displayName,
+                        userPhoto: user.photoURL,
+                        amount: donatedAmount,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        status: 'pending_verification'
+                    };
+                    db.collection('donations').add(donationData)
+                        .then(() => {
+                            alert("Sua doação foi registrada! Ela aparecerá no ranking assim que for verificada pela nossa equipe. Muito obrigado!");
+                        })
+                        .catch(error => console.error("Erro ao registrar doação:", error));
+                } else {
+                    alert("Valor inválido. Por favor, digite apenas números.");
+                }
             }
         });
 
-        // Fetch and Display Ranking
         async function displayRanking() {
             const rankingListContainer = document.getElementById('ranking-list-container');
             try {
-                // Fetch only VERIFIED donations
-                const snapshot = await db.collection('donations').where('status', '==', 'verified').orderBy('createdAt', 'desc').get();
-                
+                const snapshot = await db.collection('donations').where('status', '==', 'verified').get();
                 if (snapshot.empty) {
                     rankingListContainer.innerHTML = '<p style="text-align:center;">Nossos heróis ainda estão se aquecendo. Seja o primeiro a aparecer aqui!</p>';
                     return;
                 }
-
                 const donationsByUser = {};
                 snapshot.docs.forEach(doc => {
                     const data = doc.data();
                     if (!donationsByUser[data.userId]) {
-                        donationsByUser[data.userId] = {
-                            total: 0,
-                            name: data.userName,
-                            photo: data.userPhoto
-                        };
+                        donationsByUser[data.userId] = { total: 0, name: data.userName, photo: data.userPhoto };
                     }
                     donationsByUser[data.userId].total += data.amount;
                 });
-
-                const rankedUsers = Object.values(donationsByUser).sort((a, b) => b.total - a.total).slice(0, 10); // Top 10
-
-                rankingListContainer.innerHTML = ''; // Clear loading message
+                const rankedUsers = Object.values(donationsByUser).sort((a, b) => b.total - a.total).slice(0, 10);
+                rankingListContainer.innerHTML = '';
                 rankedUsers.forEach((user, index) => {
                     const listItem = document.createElement('li');
                     listItem.innerHTML = `
@@ -356,16 +334,13 @@
                     `;
                     rankingListContainer.appendChild(listItem);
                 });
-
             } catch (error) {
                 console.error("Erro ao carregar o ranking:", error);
-                rankingListContainer.innerHTML = '<p style="text-align:center; color:red;">Não foi possível carregar o Hall de Heróis no momento.</p>';
+                rankingListContainer.innerHTML = '<p style="text-align:center; color:red;">Não foi possível carregar o Hall de Heróis. Verifique as regras de segurança do Firestore.</p>';
             }
         }
-
-        // Initial Load
+        
         document.addEventListener('DOMContentLoaded', displayRanking);
-
     </script>
 </body>
 </html>
