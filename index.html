@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Animus ONG - Ajude um Animal Carente</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐾</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-color: #8D5B4C; /* Marrom quente e acolhedor */
@@ -65,9 +69,8 @@
         .custom-amount { width: 100%; font-size: 1.1rem; padding: 15px; border-radius: 8px; border: 2px solid var(--secondary-color); font-family: 'Poppins', sans-serif; }
         .qr-code-box { text-align: center; background: #f9f9f9; padding: 30px; border-radius: 12px; }
         #qrcode { display: flex; justify-content: center; align-items: center; background-color: var(--white); width: 220px; height: 220px; margin: 20px auto; padding: 10px; border: 1px solid #ddd; border-radius: 10px; }
-        #qrcode img { max-width: 100%; }
         #pix-code { width: 100%; padding: 10px; font-size: 0.9rem; background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 5px; margin-top: 15px; word-wrap: break-word; cursor: pointer; text-align: center; resize: none; }
-        #donation-feedback { font-weight: 600; margin-top: 15px; min-height: 20px; }
+        .btn-claim { background-color: var(--primary-color); width: 100%; margin-top: 20px; font-size: 1rem; padding: 15px; }
 
         /* Ranking & Team */
         #ranking { background-color: #FDF8F5; }
@@ -99,6 +102,7 @@
     </style>
 </head>
 <body>
+
     <header>
         <div class="container">
             <a href="#" class="logo">Animus<span>.</span>ONG</a>
@@ -107,7 +111,8 @@
                 <a href="#ranking">Hall dos Heróis</a>
                 <a href="#time">Nosso Time</a>
             </nav>
-            <div id="user-auth"></div>
+            <div id="user-auth">
+                </div>
         </div>
     </header>
 
@@ -120,7 +125,7 @@
 
         <section id="doacao">
             <div class="container">
-                <h2>Faça sua Doação Automática</h2>
+                <h2>Faça sua Doação</h2>
                 <div class="donation-box">
                     <div class="donation-controls">
                         <h3>1. Escolha ou digite um valor</h3>
@@ -134,14 +139,15 @@
                     </div>
                     <div class="qr-code-box">
                         <h3>2. Pague com PIX</h3>
-                        <div id="qrcode"><p>Escolha um valor para gerar o QR Code.</p></div>
+                        <div id="qrcode"></div>
+                        <p><strong>Chave PIX (E-mail):</strong> onganimus@gmail.com</p>
                         <textarea id="pix-code" readonly rows="3" title="Clique para copiar o código PIX"></textarea>
-                        <div id="donation-feedback"></div>
+                        <button class="btn btn-claim" id="btn-claim">Já doei! Quero ir para o ranking</button>
                     </div>
                 </div>
             </div>
         </section>
-        
+
         <section id="ranking">
             <div class="container">
                 <h2>Hall dos Heróis</h2>
@@ -151,129 +157,230 @@
             </div>
         </section>
         
-        <section id="time" style="background-color: var(--white);">
+        <section id="time">
             <div class="container">
                 <h2>Nosso Time</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/150/D88C9A/FFFFFF?text=CC" alt="Foto Cynthia Carvalho">
+                        <h4>Cynthia Carvalho</h4>
+                        <p>Fundadora e Presidente</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/150/8D5B4C/FFFFFF?text=JS" alt="Foto Jardeson">
+                        <h4>Jardeson</h4>
+                        <p>Coordenador de Voluntários</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/150/E4C59E/433633?text=LV" alt="Foto Membro 3">
+                        <h4>Dr(a) Silva</h4>
+                        <p>Veterinário(a) Responsável</p>
+                    </div>
                 </div>
+            </div>
         </section>
+
     </main>
 
     <footer>
         <div class="container">
             <p>&copy; 2025 Animus ONG. Todos os direitos reservados.</p>
+            <p>Senador Pompeu - Ceará</p>
         </div>
     </footer>
     
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-functions-compat.js"></script>
 
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const firebaseConfig = {
-            apiKey: "SUA_CHAVE_DE_API_DO_NOVO_PROJETO",
-            authDomain: "SEU_NOVO_PROJETO.firebaseapp.com",
-            projectId: "SEU_NOVO_PROJETO_ID",
-            storageBucket: "SEU_NOVO_PROJETO.appspot.com",
-            messagingSenderId: "SEU_NOVO_SENDER_ID",
-            appId: "SEU_NOVO_APP_ID"
-        };
-        
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        const auth = firebase.auth();
-        const functions = firebase.functions();
+        document.addEventListener('DOMContentLoaded', () => {
 
-        let selectedAmount = 25.00;
-        const qrcodeContainer = document.getElementById('qrcode');
-        const pixCodeTextarea = document.getElementById('pix-code');
-        const feedbackEl = document.getElementById('donation-feedback');
+            // =======================================================
+            // VERIFIQUE SE ESTA É A CONFIGURAÇÃO DO SEU PROJETO 'ong-animus-oficial'
+            // =======================================================
+            const firebaseConfig = {
+                apiKey: "AIzaSyCKA4nxvDR3IrVcrvBVwLNPoUepjPPM",
+                authDomain: "ong-animus-oficial.firebaseapp.com",
+                projectId: "ong-animus-oficial",
+                storageBucket: "ong-animus-oficial.appspot.com",
+                messagingSenderId: "387798837633",
+                appId: "1:387798837633:web:c4837caabffb87f44a6b8f",
+                measurementId: "G-3L1K94H8EC"
+            };
+            
+            firebase.initializeApp(firebaseConfig);
+            const db = firebase.firestore();
+            const auth = firebase.auth();
 
-        async function updateQRCode(amount) {
-            const user = auth.currentUser;
-            if (!user) {
-                alert("Por favor, faça o login com Google para gerar uma doação e aparecer no ranking.");
-                signInWithGoogle();
-                return;
+            // =======================================================
+            // LÓGICA DE DOAÇÃO PIX
+            // =======================================================
+            const pixKey = "onganimus@gmail.com";
+            const merchantName = "Animus ONG";
+            const merchantCity = "SENADOR POMPEU";
+            let selectedAmount = 25.00;
+            const qrcodeContainer = document.getElementById('qrcode');
+            const pixCodeTextarea = document.getElementById('pix-code');
+            let qr;
+            
+            function generatePIXPayload(key, amount, name, city, txid = '***') {
+                const f = (id, value) => id + value.length.toString().padStart(2, '0') + value;
+                const payload = [
+                    f('00', '01'),
+                    f('26', f('00', 'br.gov.bcb.pix') + f('01', key)),
+                    f('52', '0000'),
+                    f('53', '986'),
+                    f('54', amount.toFixed(2)),
+                    f('58', 'BR'),
+                    f('59', name.substring(0, 25)),
+                    f('60', city.substring(0, 15)),
+                    f('62', f('05', txid))
+                ].join('');
+                const payloadWithCRC = payload + '6304';
+                let crc = 0xFFFF;
+                for (let i = 0; i < payloadWithCRC.length; i++) {
+                    crc ^= (payloadWithCRC.charCodeAt(i) & 0xFF) << 8;
+                    for (let j = 0; j < 8; j++) {
+                        crc = (crc & 0x8000) ? (crc << 1) ^ 0x1021 : crc << 1;
+                    }
+                }
+                const crcHex = (crc & 0xFFFF).toString(16).toUpperCase().padStart(4, '0');
+                return payloadWithCRC + crcHex;
             }
 
-            feedbackEl.textContent = 'Gerando QR Code...';
-            qrcodeContainer.innerHTML = '';
-            pixCodeTextarea.value = '';
-
-            try {
-                const createPixPayment = functions.httpsCallable('createPixPayment');
-                const result = await createPixPayment({ amount: amount });
-                
-                const { qrCodeBase64, qrCode } = result.data;
-                qrcodeContainer.innerHTML = `<img src="data:image/jpeg;base64,${qrCodeBase64}" alt="PIX QR Code">`;
-                pixCodeTextarea.value = qrCode;
-                feedbackEl.textContent = 'QR Code gerado! Aponte seu celular.';
-
+            function updateQRCode(amount) {
+                if(!qr) {
+                    qr = new QRCode(qrcodeContainer, { width: 200, height: 200, colorDark: "#433633", colorLight: "#FFFFFF" });
+                }
+                const validAmount = Math.max(0.01, amount);
+                const payload = generatePIXPayload(pixKey, validAmount, merchantName, merchantCity);
+                qr.makeCode(payload);
+                pixCodeTextarea.value = payload;
                 pixCodeTextarea.onclick = () => { 
-                    navigator.clipboard.writeText(qrCode)
+                    navigator.clipboard.writeText(payload)
                         .then(() => alert('Código PIX copiado com sucesso!'))
                         .catch(err => alert('Falha ao copiar o código.'));
                 };
-            } catch (error) {
-                console.error("Erro ao gerar PIX:", error);
-                feedbackEl.textContent = `Erro: ${error.message}`;
-                qrcodeContainer.innerHTML = '<p>Falha ao gerar o QR Code. Tente novamente.</p>';
             }
-        }
-        
-        const amountButtons = document.querySelectorAll('.donation-amounts button');
-        const customAmountInput = document.getElementById('custom-amount');
+            
+            const amountButtons = document.querySelectorAll('.donation-amounts button');
+            const customAmountInput = document.getElementById('custom-amount');
 
-        amountButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                amountButtons.forEach(btn => btn.classList.remove('selected'));
-                button.classList.add('selected');
-                selectedAmount = parseFloat(button.dataset.amount);
-                customAmountInput.value = '';
-                updateQRCode(selectedAmount);
+            amountButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    amountButtons.forEach(btn => btn.classList.remove('selected'));
+                    button.classList.add('selected');
+                    selectedAmount = parseFloat(button.dataset.amount);
+                    customAmountInput.value = '';
+                    updateQRCode(selectedAmount);
+                });
             });
-        });
-        
-        customAmountInput.addEventListener('input', () => {
-            amountButtons.forEach(btn => btn.classList.remove('selected'));
-            const customValue = parseFloat(customAmountInput.value.replace(',', '.'));
-            if (!isNaN(customValue) && customValue > 0) {
-                selectedAmount = customValue;
-                updateQRCode(selectedAmount);
+            
+            customAmountInput.addEventListener('input', () => {
+                amountButtons.forEach(btn => btn.classList.remove('selected'));
+                const customValue = parseFloat(customAmountInput.value.replace(',', '.'));
+                if (!isNaN(customValue) && customValue > 0) {
+                    selectedAmount = customValue;
+                    updateQRCode(selectedAmount);
+                }
+            });
+            
+            document.querySelector('.donation-amounts button[data-amount="25"]').classList.add('selected');
+            updateQRCode(selectedAmount);
+
+            // =======================================================
+            // LÓGICA DE AUTENTICAÇÃO E RANKING
+            // =======================================================
+            const userAuthContainer = document.getElementById('user-auth');
+
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    userAuthContainer.innerHTML = `
+                        <span>Olá, ${user.displayName.split(' ')[0]}</span>
+                        <img src="${user.photoURL}" alt="Foto de perfil" title="${user.displayName}">
+                        <button id="btn-logout">Sair</button>
+                    `;
+                    document.getElementById('btn-logout').addEventListener('click', () => auth.signOut());
+                } else {
+                    userAuthContainer.innerHTML = `<button class="btn" id="btn-login" style="padding: 10px 25px;">Login com Google</button>`;
+                    document.getElementById('btn-login').addEventListener('click', signInWithGoogle);
+                }
+            });
+
+            function signInWithGoogle() {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                auth.signInWithPopup(provider).catch(error => console.error("Erro no login:", error));
             }
-        });
 
-        const userAuthContainer = document.getElementById('user-auth');
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                userAuthContainer.innerHTML = `
-                    <span>Olá, ${user.displayName.split(' ')[0]}</span>
-                    <img src="${user.photoURL}" alt="Foto de perfil">
-                    <button id="btn-logout">Sair</button>`;
-                document.getElementById('btn-logout').addEventListener('click', () => auth.signOut());
-            } else {
-                userAuthContainer.innerHTML = `<button class="btn" id="btn-login" style="padding: 10px 25px;">Login com Google</button>`;
-                document.getElementById('btn-login').addEventListener('click', signInWithGoogle);
+            document.getElementById('btn-claim').addEventListener('click', () => {
+                const user = auth.currentUser;
+                if (!user) {
+                    alert("Por favor, faça o login com Google primeiro para registrar sua doação no ranking.");
+                    signInWithGoogle();
+                    return;
+                }
+                const donatedAmountStr = prompt("Obrigado por doar! Para entrar no ranking, por favor, confirme o valor que você doou (use ponto para centavos, ex: 25.50):");
+                if (donatedAmountStr) {
+                    const donatedAmount = parseFloat(donatedAmountStr.replace(',', '.'));
+                    if (!isNaN(donatedAmount) && donatedAmount > 0) {
+                        const donationData = {
+                            userId: user.uid,
+                            userName: user.displayName,
+                            userPhoto: user.photoURL,
+                            amount: donatedAmount,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            status: 'pending_verification'
+                        };
+                        db.collection('donations').add(donationData)
+                            .then(() => {
+                                alert("Sua doação foi registrada! Ela aparecerá no ranking assim que for verificada pela nossa equipe. Muito obrigado!");
+                            })
+                            .catch(error => console.error("Erro ao registrar doação:", error));
+                    } else {
+                        alert("Valor inválido. Por favor, digite apenas números.");
+                    }
+                }
+            });
+
+            async function displayRanking() {
+                const rankingListContainer = document.getElementById('ranking-list-container');
+                try {
+                    const snapshot = await db.collection('donations').where('status', '==', 'verified').orderBy('amount', 'desc').limit(10).get();
+                    if (snapshot.empty) {
+                        rankingListContainer.innerHTML = '<p style="text-align:center;">Nossos heróis ainda estão se aquecendo. Seja o primeiro a aparecer aqui!</p>';
+                        return;
+                    }
+                    const donationsByUser = {};
+                    snapshot.docs.forEach(doc => {
+                        const data = doc.data();
+                        if (!donationsByUser[data.userId]) {
+                            donationsByUser[data.userId] = { total: 0, name: data.userName, photo: data.userPhoto };
+                        }
+                        donationsByUser[data.userId].total += data.amount;
+                    });
+                    const rankedUsers = Object.values(donationsByUser).sort((a, b) => b.total - a.total).slice(0, 10);
+
+                    rankingListContainer.innerHTML = '';
+                    rankedUsers.forEach((user, index) => {
+                        const listItem = document.createElement('li');
+                        listItem.innerHTML = `
+                            <span class="rank-pos">#${index + 1}</span>
+                            <img src="${user.photo}" alt="Foto de ${user.name}" class="rank-img">
+                            <span class="rank-name">${user.name}</span>
+                            <span class="rank-amount">R$ ${user.total.toFixed(2).replace('.', ',')}</span>
+                        `;
+                        rankingListContainer.appendChild(listItem);
+                    });
+                } catch (error) {
+                    console.error("Erro ao carregar o ranking:", error);
+                    rankingListContainer.innerHTML = '<p style="text-align:center; color:red;">Não foi possível carregar o Hall de Heróis. Verifique as regras de segurança do Firestore.</p>';
+                }
             }
+            
+            displayRanking();
         });
-
-        function signInWithGoogle() {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider).catch(error => console.error("Erro no login:", error));
-        }
-
-        async function displayRanking() {
-            // ... (mesma função de antes)
-        }
-        
-        db.collection('donations').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
-             console.log("Ranking atualizado!");
-             displayRanking();
-        });
-
-    });
     </script>
 </body>
 </html>
