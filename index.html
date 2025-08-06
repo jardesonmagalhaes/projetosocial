@@ -97,7 +97,7 @@
             section h2 { font-size: 2.2rem; }
             .donation-box { grid-template-columns: 1fr; gap: 40px; }
             .qr-code-box { padding: 20px; }
-            nav { display: none; } /* Simples para agora, menu hamburguer seria o próximo passo */
+            nav { display: none; }
         }
     </style>
 </head>
@@ -198,10 +198,10 @@
         document.addEventListener('DOMContentLoaded', () => {
 
             // =======================================================
-            // CONFIGURAÇÃO DO FIREBASE
+            // CONFIGURAÇÃO DO FIREBASE COM SUA CHAVE REAL
             // =======================================================
             const firebaseConfig = {
-                apiKey: "COLE_AQUI_A_SUA_CHAVE_DE_API_DO_GOOGLE_CLOUD",
+                apiKey: "AIzaSyDnPa-BIcP-8-QQOk-jpJARGORDev8lCnF-Y",
                 authDomain: "projetosocial-660ae.firebaseapp.com",
                 projectId: "projetosocial-660ae",
                 storageBucket: "projetosocial-660ae.appspot.com",
@@ -214,7 +214,7 @@
             const auth = firebase.auth();
 
             // =======================================================
-            // LÓGICA DE DOAÇÃO PIX (CORRIGIDA)
+            // LÓGICA DE DOAÇÃO PIX
             // =======================================================
             const pixKey = "animusong@gmail.com";
             const merchantName = "Animus ONG";
@@ -222,7 +222,7 @@
             let selectedAmount = 25.00;
             const qrcodeContainer = document.getElementById('qrcode');
             const pixCodeTextarea = document.getElementById('pix-code');
-            let qr; // Declarar a variável aqui
+            let qr;
 
             function generatePIXPayload(key, amount, name, city) {
                 const formattedAmount = amount.toFixed(2);
@@ -246,7 +246,7 @@
             }
 
             function updateQRCode(amount) {
-                if(!qr) { // Inicializa o QR Code apenas uma vez
+                if(!qr) {
                     qr = new QRCode(qrcodeContainer, { width: 200, height: 200, colorDark: "#433633", colorLight: "#FFFFFF" });
                 }
                 const payload = generatePIXPayload(pixKey, amount, merchantName, merchantCity);
@@ -341,7 +341,7 @@
             async function displayRanking() {
                 const rankingListContainer = document.getElementById('ranking-list-container');
                 try {
-                    const snapshot = await db.collection('donations').where('status', '==', 'verified').orderBy('amount', 'desc').limit(10).get();
+                    const snapshot = await db.collection('donations').where('status', '==', 'verified').get();
                     if (snapshot.empty) {
                         rankingListContainer.innerHTML = '<p style="text-align:center;">Nossos heróis ainda estão se aquecendo. Seja o primeiro a aparecer aqui!</p>';
                         return;
@@ -369,11 +369,10 @@
                     });
                 } catch (error) {
                     console.error("Erro ao carregar o ranking:", error);
-                    rankingListContainer.innerHTML = '<p style="text-align:center; color:red;">Não foi possível carregar o Hall de Heróis. Verifique sua conexão e as regras de segurança do Firestore.</p>';
+                    rankingListContainer.innerHTML = '<p style="text-align:center; color:red;">Não foi possível carregar o Hall de Heróis. Verifique as regras de segurança do Firestore.</p>';
                 }
             }
             
-            // Carrega o ranking ao iniciar
             displayRanking();
         });
     </script>
