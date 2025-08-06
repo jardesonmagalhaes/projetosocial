@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guardiões do Bairro</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+        :root {
+            --primary-color: #2c5b7c;
+            --secondary-color: #3aa8a5;
+            --background-color: #f4f7f6;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--background-color); color: var(--text-color); line-height: 1.6; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        header { background-color: var(--card-bg); padding: 1rem 0; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); position: sticky; top: 0; z-index: 100; }
+        header .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { color: var(--primary-color); font-weight: 700; font-size: 1.5rem; }
+        header nav { display: flex; align-items: center; gap: 20px; }
+        header nav a { text-decoration: none; color: var(--text-color); font-weight: 600; transition: color 0.3s ease; }
+        header nav a:hover { color: var(--primary-color); }
+        button { font-family: 'Poppins', sans-serif; cursor: pointer; border: none; border-radius: 5px; padding: 10px 20px; font-weight: 600; transition: all 0.3s ease; }
+        .btn-login { background-color: var(--primary-color); color: white; border: 2px solid var(--primary-color); }
+        .btn-login:hover { background-color: #1e425a; }
+        .btn-cta { background-color: var(--secondary-color); color: white; padding: 12px 25px; font-size: 1.1rem; }
+        .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(58, 168, 165, 0.4); }
+        .btn-accept { background-color: var(--primary-color); color: white; width: 100%; margin-top: 10px; }
+        .btn-accept:hover { background-color: #1e425a; }
+        #user-auth { display: flex; align-items: center; gap: 10px; }
+        #user-auth span { font-weight: 600; }
+        #user-auth img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-color); }
+        #btn-logout { background-color: #e74c3c; color: white; padding: 8px 15px; }
+        #btn-logout:hover { background-color: #c0392b; }
+        .hero { background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1531545514256-b1400bc00f31?q=80&w=1974&auto=format&fit=crop') no-repeat center center/cover; color: white; text-align: center; padding: 100px 0; }
+        .hero h2 { font-size: 3rem; margin-bottom: 10px; }
+        .hero p { font-size: 1.2rem; margin-bottom: 30px; }
+        .info-section, .missions-section { padding: 80px 0; }
+        .info-section { background-color: var(--card-bg); }
+        h3 { text-align: center; font-size: 2.2rem; color: var(--primary-color); margin-bottom: 50px; }
+        .steps { display: flex; justify-content: space-between; gap: 30px; text-align: center; }
+        .step { flex-basis: 30%; }
+        .step-icon { width: 60px; height: 60px; background-color: var(--secondary-color); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; font-weight: 700; margin: 0 auto 20px; }
+        .step h4 { font-size: 1.3rem; margin-bottom: 10px; }
+        .mission-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; min-height: 100px; }
+        .mission-card { background-color: var(--card-bg); border-radius: 8px; box-shadow: var(--shadow); padding: 25px; display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .mission-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); }
+        .mission-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .mission-tag { font-size: 0.8rem; padding: 4px 10px; border-radius: 15px; color: white; font-weight: 600; text-transform: capitalize; }
+        .mission-tag.ambiental { background-color: #27ae60; }
+        .mission-tag.ajuda { background-color: #e67e22; }
+        .mission-tag.zeladoria { background-color: #3498db; }
+        .mission-tag.default { background-color: #8e44ad; }
+        .mission-points { font-size: 0.9rem; font-weight: 600; color: var(--primary-color); }
+        .mission-card h4 { font-size: 1.25rem; margin-bottom: 10px; }
+        .mission-description { font-size: 0.95rem; flex-grow: 1; margin-bottom: 15px; }
+        .mission-author { font-size: 0.85rem; color: #777; }
+        .mission-footer { border-top: 1px solid #eee; padding-top: 15px; margin-top: auto; }
+        footer { background-color: var(--primary-color); color: white; text-align: center; padding: 20px 0; margin-top: 60px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">🛡️ Guardiões do Bairro</h1>
+            <nav>
+                <a href="#como-funciona">Como Funciona</a>
+                <a href="#missoes">Missões</a>
+                <div id="user-auth">
+                    <button class="btn-login" id="btn-login-google">Login com Google</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h2>A sua comunidade precisa de você.</h2>
+                <p>Participe de pequenas missões, conheça seus vizinhos e transforme o lugar onde você vive.</p>
+                <button class="btn-cta" id="btn-create-mission">Criar Nova Missão</button>
+            </div>
+        </section>
+        
+        <section id="como-funciona" class="info-section">
+            <div class="container">
+                <h3>Como Funciona?</h3>
+                <div class="steps">
+                    <div class="step"><div class="step-icon">1</div><h4>Cadastre-se</h4><p>Valide sua identidade e endereço para garantir a segurança de todos.</p></div>
+                    <div class="step"><div class="step-icon">2</div><h4>Encontre uma Missão</h4><p>Navegue pelas tarefas abertas no seu bairro e escolha uma para ajudar.</p></div>
+                    <div class="step"><div class="step-icon">3</div><h4>Complete e Ganhe Pontos</h4><p>Realize a ação, confirme a conclusão e seja reconhecido pela comunidade.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="missoes" class="missions-section">
+            <div class="container">
+                <h3>Missões Recentes no seu Bairro</h3>
+                <div class="mission-list"><p>Carregando missões...</p></div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Guardiões do Bairro. Juntos, somos mais fortes.</p>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+
+    <script>
+        // =======================================================
+        // SUA CONFIGURAÇÃO DO FIREBASE (JÁ INSERIDA)
+        // =======================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyCM9ALWfDKqEQoyRM2Q6_lSb72YBFo", // Chave de exemplo, use a sua completa
+            authDomain: "projetosocial-660ae.firebaseapp.com",
+            projectId: "projetosocial-660ae",
+            storageBucket: "projetosocial-660ae.appspot.com",
+            messagingSenderId: "109542583033",
+            appId: "1:109542583033:web:f3f475f71e29cf6fe15828",
+            measurementId: "G-41GNMWYFB4"
+        };
+
+        // Inicializa Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth(); 
+
+        // =======================================================
+        // LÓGICA DE AUTENTICAÇÃO
+        // =======================================================
+        const userAuthContainer = document.getElementById('user-auth');
+
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                userAuthContainer.innerHTML = `
+                    <span>Olá, ${user.displayName.split(' ')[0]}</span>
+                    <img src="${user.photoURL}" alt="Foto de perfil" title="${user.displayName}">
+                    <button id="btn-logout">Sair</button>
+                `;
+                document.getElementById('btn-logout').addEventListener('click', () => auth.signOut());
+            } else {
+                userAuthContainer.innerHTML = `<button class="btn-login" id="btn-login-google">Login com Google</button>`;
+                document.getElementById('btn-login-google').addEventListener('click', signInWithGoogle);
+            }
+        });
+
+        function signInWithGoogle() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider)
+                .catch(error => console.error("Erro no login:", error));
+        }
+
+        // =======================================================
+        // LÓGICA DE CRIAÇÃO E VISUALIZAÇÃO DE MISSÕES
+        // =======================================================
+        document.getElementById('btn-create-mission').addEventListener('click', () => {
+            const user = auth.currentUser;
+            if (!user) {
+                alert("Você precisa estar logado para criar uma missão!");
+                return;
+            }
+
+            const titulo = prompt("Qual o título da missão?");
+            if (!titulo) return;
+
+            const descricao = prompt("Descreva a missão:");
+            if (!descricao) return;
+
+            const novaMissao = {
+                titulo: titulo,
+                descricao: descricao,
+                autor: user.displayName,
+                autorId: user.uid,
+                status: "aberta",
+                criadoEm: firebase.firestore.FieldValue.serverTimestamp(),
+                categoria: "Geral",
+                pontos: 10
+            };
+
+            db.collection("missoes").add(novaMissao)
+                .then(() => {
+                    alert("Missão criada com sucesso!");
+                    localStorage.removeItem('cacheMissoes'); 
+                    obterEMostrarMissoes();
+                })
+                .catch(error => console.error("Erro ao criar missão:", error));
+        });
+
+        async function obterEMostrarMissoes() {
+            const containerMissoes = document.querySelector('.mission-list');
+            containerMissoes.innerHTML = '<p>Buscando missões...</p>';
+
+            const cache = JSON.parse(localStorage.getItem('cacheMissoes'));
+            const dezMinutos = 10 * 60 * 1000;
+
+            if (cache && (new Date().getTime() - cache.timestamp < dezMinutos)) {
+                console.log("Dados carregados do CACHE.");
+                renderizarMissoes(cache.dados);
+            } else {
+                console.log("Buscando dados do FIREBASE.");
+                try {
+                    const snapshot = await db.collection("missoes").where("status", "==", "aberta").orderBy("criadoEm", "desc").get();
+                    const missoes = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    
+                    const novoCache = { timestamp: new Date().getTime(), dados: missoes };
+                    localStorage.setItem('cacheMissoes', JSON.stringify(novoCache));
+                    renderizarMissoes(missoes);
+                } catch (error) {
+                    console.error("Erro ao buscar missões: ", error);
+                    containerMissoes.innerHTML = '<p style="color: red; text-align: center;">Não foi possível carregar as missões.</p>';
+                }
+            }
+        }
+
+        function renderizarMissoes(missoes) {
+            const containerMissoes = document.querySelector('.mission-list');
+            if (!missoes || missoes.length === 0) {
+                containerMissoes.innerHTML = '<p style="text-align: center;">Nenhuma missão aberta no momento. Que tal criar uma?</p>';
+                return;
+            }
+            containerMissoes.innerHTML = '';
+            missoes.forEach(missao => {
+                const card = document.createElement('div');
+                card.className = 'mission-card';
+                const categoria = missao.categoria?.toLowerCase() || 'default';
+                const classesCategoria = ['ambiental', 'ajuda', 'zeladoria'].includes(categoria) ? categoria : 'default';
+                card.innerHTML = `
+                    <div class="mission-header">
+                        <span class="mission-tag ${classesCategoria}">${missao.categoria || 'Geral'}</span>
+                        <span class="mission-points">+${missao.pontos || 10} Pontos</span>
+                    </div>
+                    <h4>${missao.titulo || 'Título da Missão'}</h4>
+                    <p class="mission-description">${missao.descricao || 'Descrição não informada.'}</p>
+                    <div class="mission-footer">
+                        <span class="mission-author">Criado por: ${missao.autor || 'Anônimo'}</span>
+                        <button class="btn-accept" data-id="${missao.id}">Aceitar Missão</button>
+                    </div>
+                `;
+                containerMissoes.appendChild(card);
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', obterEMostrarMissoes);
+    </script>
+</body>
+</html>
